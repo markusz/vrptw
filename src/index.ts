@@ -1,5 +1,9 @@
-console.log('123');
-
+import InstanceUtil from "./utils/instance-util";
 import ImprovementHeuristic from "./heuristics/improvement-heuristic"
+import ConstructionHeuristic from "./heuristics/construction-heuristic";
 
-ImprovementHeuristic.improveSolution('ASDASd');
+const problem = InstanceUtil.importProblem('solomon', 'C101');
+console.log(`Imported problem ${JSON.stringify(problem.meta)}`);
+const solution = ConstructionHeuristic.findInitialSolutionForProblem(problem);
+console.log('Solution', solution);
+ImprovementHeuristic.improveSolution(solution);
