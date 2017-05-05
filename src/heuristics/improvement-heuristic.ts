@@ -1,7 +1,7 @@
-///<reference path="../models/solver/solution.ts"/>
+import Solution from "../models/solver/solution";
 
 export default class ImprovmentHeuristic {
-  static improveSolution(s: Solution) {
-    return s
+  static improveSolution(solution: Solution): Solution {
+    return solution
   }
 }
