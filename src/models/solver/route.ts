@@ -3,6 +3,7 @@ import Job, {JobType} from "../job";
 import Node from "../node";
 import TimeWindow from "../time-window";
 import Depot from "../depot";
+import Leg from "./leg";
 export default class Route {
     jobs: Array<Job>;
     vehicle: Vehicle;
@@ -65,7 +66,7 @@ export default class Route {
         return this.jobs[this.jobs.length - 1]
     }
 
-    getLegsInRoute(): Array<Array<[number, number]>> {
+    getLegsInRoute(): Array<Leg> {
         //i.e. [D,W,T,C,T,W,C,T,W,D]
         return this.jobs
         // [D,W,T,C,T,W,C,T,W,D] -> [0,3,6,9]
@@ -76,8 +77,8 @@ export default class Route {
                 return arr;
             }, [])
             // [0,3,6,9] -> [[0,3],[3,6],[6,9],[9,undefined]]
-            .map((el, i, arr) => [el, arr[i + 1]])
+            .map((el, i, arr) => new Leg(el, arr[i + 1]))
             // [[0,3],[3,6],[6,9],[9,undefined]] -> [[0,3],[3,6],[6,9]]
-            .filter(el => el[1] !== undefined);
+            .filter(leg => leg.isValid());
     }
 }
