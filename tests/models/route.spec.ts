@@ -31,6 +31,6 @@ describe('[Unit][Model] route.js', () => {
 
     describe('getLegsInRoute', () => {
         // D-W-D
-        it('correctly gets legs in starting route', () => expect(validRoute1.getLegsInRoute()).to.eql([[0, 2]]));
+        it('correctly gets legs in starting route', () => expect(validRoute1.getLegsInRoute().map(leg => leg.toArray())).to.eql([[0, 2]]));
     });
 });
