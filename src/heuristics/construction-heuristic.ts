@@ -16,7 +16,7 @@ export default class ConstructionHeuristic {
         while (!sInitial.isComplete()) {
             const unservicedCustomers: Array<Customer> = sInitial.getUnservicedCustomers();
             // console.log(unservicedCustomers.length);
-            sTemp = nRegretRepair.repair(sTemp);
+            sTemp = nRegretRepair.collectRepairOperations(sTemp);
             // s_c = s_t;
             // s_c.setT(System.currentTimeMillis() - s_c.getT_s());
         }
