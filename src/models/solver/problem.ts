@@ -1,16 +1,17 @@
 import Customer from "../customer";
 import Node from "../node";
 import Vehicle from "../vehicle";
+import Depot from "../depot";
 export default class Problem {
     costs: Array<Array<number>>;
     aptitude: Array<Array<boolean>>;
     customers: Array<Customer>;
-    depot: Node;
+    depot: Depot;
     distances: Array<Array<number>>;
     constraints: any;
     vehicles: Array<Vehicle>;
     meta: any;
-    constructor(customers: Array<Customer>, depot: Node, distances: Array<Array<number>>, constraints: any, meta: any) {
+    constructor(customers: Array<Customer>, depot: Depot, distances: Array<Array<number>>, constraints: any, meta: any) {
         this.costs = distances;
         this.distances = distances;
         this.depot = depot;

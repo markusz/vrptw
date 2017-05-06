@@ -20,7 +20,7 @@ export default class Solution {
 
     getEmptyRoutesForEachVehicle(): Array<Route> {
         return this.problem.vehicles
-            .map(vehicle => new Route(vehicle, this.problem.depot, this.problem.constraints.start, this.problem.constraints.end))
+            .map(vehicle => new Route(vehicle, this.problem.depot))
     }
 
     getUnservicedCustomers(): Array<Customer> {

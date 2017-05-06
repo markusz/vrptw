@@ -2,12 +2,13 @@ import Problem from "../models/solver/problem";
 import Customer from "../models/customer";
 import Node from "../models/node";
 import * as lodash from 'lodash';
+import Depot from "../models/depot";
 
 export default class InstanceUtil {
     static importProblem(problemClass: string, problemId: string): Problem {
         const rawInstanceData = require(`../../data/instances/${problemClass}/${problemId}.json`);
         const customers: Array<Customer> = InstanceUtil.getCustomers(rawInstanceData);
-        const depot: Node = InstanceUtil.getDepot(rawInstanceData);
+        const depot: Depot = InstanceUtil.getDepot(rawInstanceData);
         const distances: Array<Array<number>> = rawInstanceData.distance_matrix;
         const constraints: any = InstanceUtil.getConstraints(rawInstanceData);
         const meta: any = {
@@ -18,10 +19,11 @@ export default class InstanceUtil {
         return new Problem(customers, depot, distances, constraints, meta);
     }
 
-    private static getDepot(data: any) {
+    private static getDepot(data: any): Depot {
+        // Account for typo in source data
         const depotData = data.deport;
         depotData.id = 0;
-        return new Node(depotData);
+        return new Depot(depotData);
     }
 
     private static getConstraints(data: any) {
