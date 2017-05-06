@@ -3,6 +3,7 @@
   "compilerOptions": {
     "module": "system",
     "noImplicitAny": true,
+    "noImplicitReturns": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "outFile": "../../built/local/tsc.js",
