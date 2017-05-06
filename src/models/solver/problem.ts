@@ -28,7 +28,6 @@ export default class Problem {
 
     getTravelCostBetweenNodes(from: Node, to: Node) {
         // cost = distance
-        console.log(from, to);
         return this.distances[from.id][to.id];
     }
 
