@@ -2,6 +2,7 @@ import Route from "./route";
 import {JobType} from "../job";
 import Problem from "./problem";
 import Customer from "../customer";
+import RepairOperation from "./repair-operation";
 export default class Solution {
     routes: Array<Route>;
     problem: Problem;
@@ -16,6 +17,10 @@ export default class Solution {
 
     clone(): Solution {
         return JSON.parse(JSON.stringify(this));
+    }
+
+    applyRepairOperation(repairOperation: RepairOperation) {
+        console.log('Would apply', repairOperation)
     }
 
     getEmptyRoutesForEachVehicle(): Array<Route> {

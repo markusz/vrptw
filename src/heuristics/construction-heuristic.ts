@@ -9,16 +9,14 @@ export default class ConstructionHeuristic {
         // Minmale als Wurzelknoten setzen
         const sInitial: Solution = ConstructionHeuristic.getEmptySolution(problem);
         sInitial.printToConsole();
-        const nRegretRepair: NRegretRepair = new NRegretRepair(2);
+        const nRegretRepair: NRegretRepair = new NRegretRepair(2, problem);
         // Iterationen starten hier
         let sTemp: Solution = sInitial;
 
         while (!sInitial.isComplete()) {
             const unservicedCustomers: Array<Customer> = sInitial.getUnservicedCustomers();
             // console.log(unservicedCustomers.length);
-            sTemp = nRegretRepair.collectRepairOperations(sTemp);
-            // s_c = s_t;
-            // s_c.setT(System.currentTimeMillis() - s_c.getT_s());
+            sTemp = nRegretRepair.repair(sTemp);
         }
         return sInitial;
     }
