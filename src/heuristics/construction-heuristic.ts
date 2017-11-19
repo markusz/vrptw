@@ -1,6 +1,6 @@
 import Solution from "../models/solver/solution";
 import Problem from "../models/solver/problem";
-import NRegretRepair from "../alns/repair/n-regret-repair";
+import RegretKRepair from "../alns/repair/regret-k-repair";
 import Customer from "../models/customer";
 
 export default class ConstructionHeuristic {
@@ -8,15 +8,18 @@ export default class ConstructionHeuristic {
         console.log(`Starting to solve instance with ${problem.customers.length} customers and ${problem.vehicles.length} vehicles and constaints: ${JSON.stringify(problem.constraints)}`);
         // Minmale als Wurzelknoten setzen
         const sInitial: Solution = ConstructionHeuristic.getEmptySolution(problem);
-        sInitial.printToConsole();
-        const nRegretRepair: NRegretRepair = new NRegretRepair(2, problem);
+        const regretKRepair: RegretKRepair = new RegretKRepair(2, problem);
         // Iterationen starten hier
         let sTemp: Solution = sInitial;
 
         while (!sInitial.isComplete()) {
             const unservicedCustomers: Array<Customer> = sInitial.getUnservicedCustomers();
-            // console.log(unservicedCustomers.length);
-            sTemp = nRegretRepair.repair(sTemp);
+            try {
+                console.log(sTemp.toCompactString());
+                sTemp = regretKRepair.repair(sTemp);
+            } catch(e) {
+                console.log('Could not repair solution -> ', e)
+            }
         }
         return sInitial;
     }

@@ -6,9 +6,15 @@
     "noImplicitReturns": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "outFile": "../../built/local/tsc.js",
+    "outFile": "./built/local/tsc.js",
     "sourceMap": true,
-    "inlineSources": true
+    "inlineSources": true,
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   },
   "include": [
     "src/**/*"

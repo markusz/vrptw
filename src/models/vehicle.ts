@@ -6,4 +6,8 @@ export default class Vehicle {
         this.id = id;
         this.skillsPossessed = -1;
     }
+
+    index() {
+        return this.id;
+    }
 }

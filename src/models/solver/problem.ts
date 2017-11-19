@@ -28,7 +28,7 @@ export default class Problem {
 
     getTravelCostBetweenNodes(from: Node, to: Node) {
         // cost = distance
-        return this.distances[from.id][to.id];
+        return Math.ceil(this.distances[from.id][to.id]);
     }
 
 }

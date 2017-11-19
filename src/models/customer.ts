@@ -8,4 +8,8 @@ export default class Customer extends Node {
         this.skillsRequired = -1;
         this.jobDuration = customerData.service_time;
     }
+
+    index() {
+        return this.id - 1;
+    }
 }

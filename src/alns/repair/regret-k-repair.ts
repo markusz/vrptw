@@ -10,7 +10,7 @@ import Vehicle from "../../models/vehicle";
 import Problem from "../../models/solver/problem";
 import RepairOperation from "../../models/solver/repair-operation";
 
-export default class NRegretRepair implements RepairOperator {
+export default class RegretKRepair implements RepairOperator {
     n: number;
     problem: Problem;
 
@@ -22,15 +22,19 @@ export default class NRegretRepair implements RepairOperator {
     repair(s: Solution) {
         const repairOperations: Array<Array<RepairOperation>> = this.collectRepairOperations(s);
         const repairOperation: RepairOperation = this.selectRepairOperation(repairOperations);
-        s.applyRepairOperation(repairOperation);
-        return s;
+        if (repairOperation !== undefined) {
+            s.applyRepairOperation(repairOperation);
+            return s;
+        } else {
+            throw new Error("No repair operation available")
+        }
     }
 
     collectRepairOperations(s: Solution): Array<Array<RepairOperation>> {
         const repairOperations: Array<Array<RepairOperation>> = [];
-        const unservicedCustomers = lodash.shuffle(s.getUnservicedCustomers());
+        const unservicedCustomers: Array<Customer> = lodash.shuffle(s.getUnservicedCustomers());
         for (let customer of unservicedCustomers) {
-            repairOperations[customer.id] = this.collectRepairOperationsForCustomer(s, customer);
+            repairOperations[customer.index()] = this.collectRepairOperationsForCustomer(s, customer);
         }
 
         return repairOperations;
@@ -40,7 +44,18 @@ export default class NRegretRepair implements RepairOperator {
         const n = this.n - 1;
         const res: Array<Array<RepairOperation>> = repairOperation
             .map(repairOperations => repairOperations.sort((b, a) => b.cost - a.cost)) // sort repair operations per vehicle descending
-            .sort((first, second) =>  (second[n].cost - second[0].cost) - (first[n].cost - first[0].cost)); //
+            .sort((first, second) => {
+                if (second.length < 1 || first.length < 1) {
+                    return -1;
+                }
+
+                const n_s = Math.min(n, second.length - 1);
+                const n_f = Math.min(n, first.length - 1);
+
+                const regretKOfSecond = second[n_s].cost - second[0].cost;
+                const regretKOfFirst = first[n_f].cost - first[0].cost;
+                return regretKOfSecond - regretKOfFirst
+            }); //
         return res[0][0];
     }
 
@@ -78,11 +93,14 @@ export default class NRegretRepair implements RepairOperator {
                     costBudget += jobs[leg.start + 2].getDuration();
                 }
 
+                costBudget--;
+
                 if (leg.jobsBetweenStartAndEnd() > 2) {
                     throw new Error('This should not happen');
                 }
 
                 const doesVehicleHaveTimeForCustomerIncludingTravelTime: boolean = totalCost <= costBudget;
+                // console.log(`Trying job ${customer.id} for ${vehicle.id} in leg ${leg.toArray()} -> ${doesVehicleHaveTimeForCustomerIncludingTravelTime}`);
                 if (doesVehicleHaveTimeForCustomerIncludingTravelTime) {
                     const vehicleAvailability: TimeWindow = this.getVehicleServiceWindowForSchedulingCustomerBetweenTwoOtherCustomers(predecessor, successor, customer);
                     const customerAvailability: Array<TimeWindow> = customer.availableTimeWindows;
@@ -108,6 +126,9 @@ export default class NRegretRepair implements RepairOperator {
         }
 
         // console.log(repairOperations.map(i => i.toString()));
+        if(repairOperations.length < 1) {
+            // console.log(`can not schedule job ${customer.id}`)
+        }
         return repairOperations;
     }
 

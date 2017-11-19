@@ -38,6 +38,14 @@ export default class Route {
         return false;
     }
 
+    toString() {
+        return this.jobs.reduceRight((acc, val) => acc + val.toShortString(), '');
+    }
+
+    setJobs(jobs: Array<Job>) {
+        this.jobs = jobs;
+    }
+
     isValid(): boolean {
         if (this.jobs.length < 3) {
             console.log('Route to short');

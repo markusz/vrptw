@@ -11,4 +11,8 @@ export default class Node {
         this.yCoordinate = nodeData.coordinates.y;
         this.availableTimeWindows = [new TimeWindow(nodeData.ready_time, nodeData.due_time)];
     }
+
+    index(): number {
+        return this.id;
+    }
 }

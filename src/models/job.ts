@@ -13,6 +13,14 @@ export default class Job {
         this.time = time;
     }
 
+    getStart(): number {
+        return this.time.start;
+    }
+
+    getEnd(): number {
+        return this.time.end;
+    }
+
     getDuration(): number {
         //i.e. 1 2 3 4 5 6 -> 1 [ 2 3 4 5 ] 6 -> 5 - 2 + 1 = 4
         return this.time.getDuration()
@@ -40,5 +48,47 @@ export default class Job {
 
     isTravelOrWaitingJob(): boolean {
         return this.type === JobType.Travel || this.type === JobType.Wait;
+    }
+
+    toShortString(): string {
+        if (this.type === JobType.Customer) {
+            return `C${this.node.id}`;
+        }
+
+        if (this.type === JobType.Wait) {
+            return 'W';
+        }
+
+        if (this.type === JobType.Depot) {
+            return  'D';
+        }
+
+        if (this.type === JobType.Travel) {
+            return 'T';
+        }
+
+        return '?';
+    }
+
+    toString() {
+        var typeString;
+
+        if (this.type === JobType.Customer) {
+            typeString = `C${this.node.id}`;
+        }
+
+        if (this.type === JobType.Wait) {
+            typeString = 'W';
+        }
+
+        if (this.type === JobType.Depot) {
+            typeString = 'D';
+        }
+
+        if (this.type === JobType.Travel) {
+            typeString = 'T';
+        }
+
+        return `${typeString}[${this.getStart()},${this.getEnd()}]`
     }
 }

@@ -2,18 +2,18 @@
 import Problem from "../../../src/models/solver/problem";
 import InstanceUtil from "../../../src/utils/instance-util";
 import RepairOperation from "../../../src/models/solver/repair-operation";
-import NRegretRepair from "../../../src/alns/repair/n-regret-repair";
+import RegretKRepair from "../../../src/alns/repair/regret-k-repair";
 const chai = require('chai');
 
 const expect = chai.expect;
 const assert = chai.assert;
 
 
-describe('[Unit][Repair] NRegretRepair', () => {
+describe('[Unit][Repair] RegretKRepair', () => {
     const problem: Problem = InstanceUtil.importProblem('solomon', 'C101');
 
-    const regret2Repair = new NRegretRepair(2, problem);
-    const regret3Repair = new NRegretRepair(3, problem);
+    const regret2Repair = new RegretKRepair(2, problem);
+    const regret3Repair = new RegretKRepair(3, problem);
 
     describe('selectRepairOperation', () => {
 
